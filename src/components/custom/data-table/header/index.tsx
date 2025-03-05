@@ -8,7 +8,6 @@ type DataTableHeaderProps = {
 function DataTableHeader({
   column: { name, label, type, width },
 }: DataTableHeaderProps) {
-  console.log({ name, label, type });
   return (
     <th
       key={name}

@@ -15,10 +15,12 @@ function DataTable<T extends Identifiable[]>({
 }: DataTableProps<T>): React.JSX.Element {
   return (
     <table className="flex flex-col w-full border-collapse">
-      <thead className="flex flex-row w-full border-y-1 py-1">
-        {headers.map((header) => (
-          <DataTableHeader key={header.name} column={header} />
-        ))}
+      <thead className="flex flex-row w-full">
+        <tr className="flex flex-row w-full border-y-1 py-1 items-center">
+          {headers.map((header) => (
+            <DataTableHeader key={header.name} column={header} />
+          ))}
+        </tr>
       </thead>
       <tbody className="flex flex-col w-full">
         {data.map((row) => (

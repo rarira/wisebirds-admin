@@ -12,10 +12,14 @@ function Header(): React.JSX.Element {
 
   return (
     <nav
-      className={`fixed top-0 flex w-full h-12 min-w-4xl bg-primary text-white py-2 px-4 flex-row justify-between items-center`}
+      className={`fixed top-0 flex w-full h-12 min-w-4xl bg-primary text-white px-4 flex-row justify-between items-center`}
     >
-      <div className="flex flex-1 gap-8 flex-row">
-        <Link href="/" replace className="flex items-center justify-center">
+      <div className="flex flex-1 gap-4 flex-row h-full items-center">
+        <Link
+          href="/"
+          replace
+          className="flex items-center justify-centerm mr-4"
+        >
           <Image
             src="/logo.png"
             width={64}
@@ -24,8 +28,8 @@ function Header(): React.JSX.Element {
             className="filter grayscale brightness-[1000%]"
           />
         </Link>
-        <HeaderMenu href="./">캠페인</HeaderMenu>
-        {role === "admin" && <HeaderMenu href="./">사용자</HeaderMenu>}
+        <HeaderMenu href="/">캠페인</HeaderMenu>
+        {role === "admin" && <HeaderMenu href="/users">사용자</HeaderMenu>}
       </div>
       <div className="flex gap-4 flex-row">
         <HeaderProfile />
