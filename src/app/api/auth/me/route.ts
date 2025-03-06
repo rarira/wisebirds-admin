@@ -1,7 +1,6 @@
 import { sleep } from "@/lib/utils";
 
 export async function GET() {
-  console.log("call me api");
   //TODO: 백엔드 구현 필요
   //   const res = await fetch("https://data.mongodb-api.com/...", {
   //     headers: {

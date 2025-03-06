@@ -1,4 +1,4 @@
-import { CampaignObjectives } from "./constants";
+import { CAMPAIGN_OBJECTIVES } from "./constants";
 
 export interface Identifiable
   extends Record<string, string | number | boolean> {
@@ -33,7 +33,7 @@ export type InferDataType<T extends unknown[]> = T extends (infer U)[]
 
 export interface CampaignContent extends Identifiable {
   enabled: boolean;
-  campaign_objective: keyof typeof CampaignObjectives;
+  campaign_objective: keyof typeof CAMPAIGN_OBJECTIVES;
   impressions: number;
   clicks: number;
   ctr: number;
@@ -45,7 +45,7 @@ type SortInfo = {
   sort_field: string;
   sort_order: "ASC" | "DESC";
 };
-interface PageInfo {
+export interface PageInfo {
   total_elements: number;
   total_pages: number;
   last: boolean;
