@@ -12,7 +12,7 @@ function Header() {
 
   return (
     <nav
-      className={`fixed top-0 flex w-full h-12 min-w-4xl bg-primary text-white px-4 flex-row justify-between items-center`}
+      className={`fixed top-0 flex w-full h-12 min-w-4xl bg-primary text-white px-4 flex-row justify-between items-center z-10`}
     >
       <div className="flex flex-1 gap-4 flex-row h-full items-center">
         <Link

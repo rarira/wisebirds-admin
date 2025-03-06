@@ -6,10 +6,16 @@ import { queryKeys } from "@/lib/react-query";
 import { useRoleStore } from "@/lib/store";
 import { CampaignApiResponse } from "@/lib/types";
 import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 
 export default function Home() {
-  const [page, setPage] = useState(0);
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const params = new URLSearchParams(searchParams);
+
+  const pageParam = params.get("page");
+
+  const page = pageParam ? +pageParam : 0;
 
   const role = useRoleStore((state) => state.role);
 
@@ -20,7 +26,8 @@ export default function Home() {
         `/api/campaigns?page=${page}&size=${PAGINATION_SIZE}`
       );
       if (!response.ok) {
-        throw new Error("Network response was not ok");
+        const errorData = await response.json();
+        throw new Error(errorData.message || "요청 실패");
       }
       return response.json();
     },
@@ -28,6 +35,12 @@ export default function Home() {
     refetchInterval: 1000 * 60 * 1,
   });
 
+  const setPageParam = (page: number) => {
+    params.set("page", page.toString());
+    router.push(`?${params.toString()}`);
+  };
+
+  console.log({ data, error, isLoading });
   if (isLoading) {
     return <div>Loading...</div>;
   }
@@ -51,7 +64,7 @@ export default function Home() {
       />
       <div className="flex flex-col w-full" />
       {restData.total_pages > 1 && (
-        <Pagination pageInfo={restData} setPage={setPage} />
+        <Pagination pageInfo={restData} setPage={setPageParam} />
       )}
     </div>
   );

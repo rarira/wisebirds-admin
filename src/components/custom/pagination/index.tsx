@@ -7,11 +7,10 @@ import {
   DoubleArrowLeftIcon,
   DoubleArrowRightIcon,
 } from "@radix-ui/react-icons";
-import { Dispatch, SetStateAction } from "react";
 
 type PaginationProps = {
   pageInfo: PageInfo;
-  setPage: Dispatch<SetStateAction<number>>;
+  setPage: (page: number) => void;
 };
 
 function Pagination({ pageInfo, setPage }: PaginationProps) {

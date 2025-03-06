@@ -39,11 +39,12 @@ function DataTableCell({
     <td
       key={name}
       className={cn(
-        "flex flex-1 whitespace-nowrap",
+        "flex w-full",
+        type === "boolean" && "justify-center max-w-12",
         type === "integer" || type === "float"
           ? "justify-end"
           : "justify-start",
-        `grow-${width}`
+        `flex-${width}`
       )}
     >
       {getCellValue(value, type)}

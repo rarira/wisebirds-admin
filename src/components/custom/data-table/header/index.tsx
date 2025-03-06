@@ -13,10 +13,11 @@ function DataTableHeader({
       key={name}
       className={cn(
         "flex w-full",
+        type === "boolean" && "justify-center max-w-12",
         type === "integer" || type === "float"
           ? "justify-end"
           : "justify-start",
-        `grow-${width}`
+        `flex-${width}`
       )}
     >
       {label}

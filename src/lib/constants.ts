@@ -20,19 +20,19 @@ const CAMPAIGN_TABLE_COLUMNS: Record<
   keyof Omit<CampaignContent, "id">,
   Omit<TableHeader, "name">
 > = {
-  enabled: { label: "상태", type: "boolean", width: 1 },
-  name: { label: "캠페인명", type: "text", width: 6 },
+  enabled: { label: "상태", type: "boolean", width: 2 },
+  name: { label: "캠페인명", type: "text", width: 8 },
   campaign_objective: {
     label: "캠페인 목적",
     type: "constant",
     values: CAMPAIGN_OBJECTIVES,
     width: 5,
   },
-  impressions: { label: "노출수", type: "integer", width: 3 },
-  clicks: { label: "클릭수", type: "integer", width: 2 },
-  ctr: { label: "CTR", type: "float", width: 1 },
-  video_views: { label: "동영상 조회수", type: "integer", width: 1 },
-  vtr: { label: "VTR", type: "float", width: 1 },
+  impressions: { label: "노출수", type: "integer", width: 5 },
+  clicks: { label: "클릭수", type: "integer", width: 4 },
+  ctr: { label: "CTR", type: "float", width: 3 },
+  video_views: { label: "동영상 조회수", type: "integer", width: 3 },
+  vtr: { label: "VTR", type: "float", width: 3 },
 } as const;
 
 export const CAMPAIGN_TABLE_HEADERS: TableHeader[] = Object.entries(

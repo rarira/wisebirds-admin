@@ -7,6 +7,8 @@ import { CampaignApiResponse, CampaignContent } from "@/lib/types";
 import { sleep } from "@/lib/utils";
 import { NextRequest } from "next/server";
 import { faker } from "@faker-js/faker";
+import { redirect } from "next/navigation";
+import { NextResponse } from "next/server";
 
 function createCampaignContent(page: number, size: number): CampaignContent[] {
   const isLastPage =
@@ -50,18 +52,36 @@ export async function GET(req: NextRequest) {
   const size = req.nextUrl.searchParams.get("size");
 
   if (!page || !size) {
-    return Response.json({
-      message: "page and size are required",
-      status: 400,
-    });
+    return NextResponse.json(
+      {
+        message: "page and size are required",
+      },
+      {
+        status: 400,
+      }
+    );
+  }
+  const total_pages = Math.ceil(CAMPAIGN_TOTAL_ELEMENTS / PAGINATION_SIZE);
+
+  if (+page >= total_pages) {
+    console.log("will response 400");
+    // redirect(`/api/campaigns?page=${total_pages - 1}&size=${size}`);
+    return NextResponse.json(
+      {
+        message: "page is out of range",
+      },
+      {
+        status: 400,
+      }
+    );
   }
 
   const content = createCampaignContent(+page, +size);
 
   const response: CampaignApiResponse = {
     total_elements: CAMPAIGN_TOTAL_ELEMENTS,
-    total_pages: Math.ceil(CAMPAIGN_TOTAL_ELEMENTS / PAGINATION_SIZE),
-    last: +page + 1 === Math.ceil(CAMPAIGN_TOTAL_ELEMENTS / PAGINATION_SIZE),
+    total_pages,
+    last: +page + 1 === total_pages,
     number: +page,
     size: PAGINATION_SIZE,
     sort: {
