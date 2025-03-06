@@ -1,11 +1,53 @@
 "use client";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
-const queryClient = new QueryClient();
+import {
+  QueryClient,
+  QueryClientProvider,
+  QueryErrorResetBoundary,
+} from "@tanstack/react-query";
+import { useState } from "react";
+import { useErrorStore } from "@/lib/store";
+import ErrorDialog from "../dialog/error";
+import { createPortal } from "react-dom";
+import { ErrorBoundary } from "react-error-boundary";
 
 function Providers({ children }: { children: React.ReactNode }) {
+  const { error, setError } = useErrorStore();
+
+  const [queryClient] = useState(
+    () =>
+      new QueryClient({
+        defaultOptions: {
+          queries: {
+            // With SSR, we usually want to set some default staleTime
+            // above 0 to avoid refetching immediately on the client
+            staleTime: 60 * 1000,
+            // throwOnError: true,
+          },
+        },
+      })
+  );
+
   return (
-    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+    <>
+      <QueryErrorResetBoundary>
+        {({ reset }) => (
+          <ErrorBoundary onReset={reset} FallbackComponent={ErrorDialog}>
+            <QueryClientProvider client={queryClient}>
+              {children}
+            </QueryClientProvider>
+          </ErrorBoundary>
+        )}
+      </QueryErrorResetBoundary>
+      {!!error &&
+        createPortal(
+          <ErrorDialog
+            error={error}
+            resetErrorBoundary={() => setError(null)}
+          />,
+          document.body
+        )}
+    </>
   );
 }
 

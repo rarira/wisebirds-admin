@@ -7,7 +7,6 @@ import { CampaignApiResponse, CampaignContent } from "@/lib/types";
 import { sleep } from "@/lib/utils";
 import { NextRequest } from "next/server";
 import { faker } from "@faker-js/faker";
-import { redirect } from "next/navigation";
 import { NextResponse } from "next/server";
 
 function createCampaignContent(page: number, size: number): CampaignContent[] {
@@ -54,7 +53,7 @@ export async function GET(req: NextRequest) {
   if (!page || !size) {
     return NextResponse.json(
       {
-        message: "page and size are required",
+        message: "page와 size 파라미터가 필요합니다.",
       },
       {
         status: 400,
@@ -63,12 +62,10 @@ export async function GET(req: NextRequest) {
   }
   const total_pages = Math.ceil(CAMPAIGN_TOTAL_ELEMENTS / PAGINATION_SIZE);
 
-  if (+page >= total_pages) {
-    console.log("will response 400");
-    // redirect(`/api/campaigns?page=${total_pages - 1}&size=${size}`);
+  if (+page >= total_pages || +page < 0) {
     return NextResponse.json(
       {
-        message: "page is out of range",
+        message: "해당 페이지가 존재하지 않습니다.",
       },
       {
         status: 400,
@@ -96,5 +93,5 @@ export async function GET(req: NextRequest) {
 
   await sleep(1000);
 
-  return Response.json(response);
+  return NextResponse.json(response);
 }
