@@ -41,6 +41,7 @@ function DataTable<T extends Identifiable[]>({
                     column={header}
                     value={row[header.name]}
                     editable={editable}
+                    row={row}
                   />
                 ))}
               </tr>

@@ -61,6 +61,7 @@ function HomeView() {
 
   return (
     <>
+      <h2 className="font-bold">캠페인 관리</h2>
       <DataTable
         headers={CAMPAIGN_TABLE_HEADERS}
         data={content}

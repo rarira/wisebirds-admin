@@ -12,7 +12,7 @@ function DataTableHeader({
     <th
       key={name}
       className={cn(
-        "flex w-full",
+        "flex w-full text-muted-foreground font-normal",
         type === "boolean" && "justify-center max-w-12",
         type === "integer" || type === "float"
           ? "justify-end"

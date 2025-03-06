@@ -1,20 +1,23 @@
 "use client";
 import { Switch } from "@/components/ui/switch";
-import { useState } from "react";
+import { Identifiable } from "@/lib/types";
+import { useUpdateCampaignStatus } from "../../../../hooks/useUpdateCampaignStatus";
 
 function DataTableBooleanCell({
   value,
   disabled,
+  row,
 }: {
   value: boolean;
+  row: Identifiable;
   disabled?: boolean;
 }) {
-  const [checked, setChecked] = useState(value);
+  const { handleChange } = useUpdateCampaignStatus(row.id);
 
   return (
     <Switch
-      checked={checked}
-      onCheckedChange={setChecked}
+      checked={value}
+      onCheckedChange={handleChange}
       disabled={disabled}
     />
   );

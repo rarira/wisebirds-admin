@@ -1,10 +1,11 @@
-import { DataType, TableHeader } from "@/lib/types";
+import { DataType, Identifiable, TableHeader } from "@/lib/types";
 import { cn } from "@/components/lib/utils";
 import { ReactElement } from "react";
 import { getFormattedInteger, getPercentageString } from "@/lib/utils";
 import DataTableBooleanCell from "./boolean&";
 
 type DataTableCellProps = {
+  row: Identifiable;
   column: TableHeader;
   value: string | number | boolean;
   editable?: boolean;
@@ -14,6 +15,7 @@ function DataTableCell({
   column: { name, type, values, width },
   value,
   editable,
+  row,
 }: DataTableCellProps) {
   const getCellValue = (
     value: string | number | boolean,
@@ -28,7 +30,11 @@ function DataTableCell({
         return <span>{getPercentageString(value as number)}</span>;
       case "boolean":
         return (
-          <DataTableBooleanCell value={value as boolean} disabled={!editable} />
+          <DataTableBooleanCell
+            value={value as boolean}
+            disabled={!editable}
+            row={row}
+          />
         );
       default:
         return <span>{value}</span>;
