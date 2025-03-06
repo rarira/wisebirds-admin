@@ -1,9 +1,9 @@
 import { create } from "zustand";
-import { Roles } from "./constants";
+import { ROLES } from "./constants";
 
 type RoleStore = {
-  role: keyof typeof Roles;
-  setRole: (role: keyof typeof Roles) => void;
+  role: keyof typeof ROLES;
+  setRole: (role: keyof typeof ROLES) => void;
 };
 
 export const useRoleStore = create<RoleStore>((set) => ({

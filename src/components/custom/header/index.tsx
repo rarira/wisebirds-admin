@@ -7,7 +7,7 @@ import HeaderProfile from "./profile";
 import HeaderRoleMenu from "./role-menu";
 import { useRoleStore } from "@/lib/store";
 
-function Header(): React.JSX.Element {
+function Header() {
   const role = useRoleStore((state) => state.role);
 
   return (

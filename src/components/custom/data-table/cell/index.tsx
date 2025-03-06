@@ -19,7 +19,6 @@ function DataTableCell({
     value: string | number | boolean,
     type: DataType
   ): ReactElement => {
-    console.log({ editable });
     switch (type) {
       case "constant":
         return <span>{values![value as string]}</span>;
@@ -40,7 +39,7 @@ function DataTableCell({
     <td
       key={name}
       className={cn(
-        "flex flex-1 py-1",
+        "flex flex-1 whitespace-nowrap",
         type === "integer" || type === "float"
           ? "justify-end"
           : "justify-start",

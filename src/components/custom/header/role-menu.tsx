@@ -8,7 +8,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { cn } from "@/components/lib/utils";
-import { Roles } from "@/lib/constants";
+import { ROLES } from "@/lib/constants";
 import { useRoleStore } from "@/lib/store";
 
 function StyledSelectItem({
@@ -16,8 +16,8 @@ function StyledSelectItem({
   value,
   children,
 }: {
-  currentRole: keyof typeof Roles;
-  value: keyof typeof Roles;
+  currentRole: keyof typeof ROLES;
+  value: keyof typeof ROLES;
   children: React.ReactNode;
 }) {
   return (
@@ -33,7 +33,7 @@ function StyledSelectItem({
   );
 }
 
-function HeaderRoleMenu(): React.JSX.Element {
+function HeaderRoleMenu() {
   const { role, setRole } = useRoleStore();
 
   return (
@@ -42,11 +42,11 @@ function HeaderRoleMenu(): React.JSX.Element {
         <SelectValue />
       </SelectTrigger>
       <SelectContent className="w-36">
-        {Object.entries(Roles).map(([key, value]) => (
+        {Object.entries(ROLES).map(([key, value]) => (
           <StyledSelectItem
             key={key}
             currentRole={role}
-            value={key as keyof typeof Roles}
+            value={key as keyof typeof ROLES}
           >
             {value}
           </StyledSelectItem>

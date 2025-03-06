@@ -10,7 +10,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 
-function HeaderProfile(): React.JSX.Element {
+function HeaderProfile() {
   const { data, isLoading, error } = useQuery<UserProfile>({
     queryKey: queryKeys.me,
     queryFn: async () => {
@@ -20,6 +20,7 @@ function HeaderProfile(): React.JSX.Element {
       }
       return response.json();
     },
+    staleTime: 1000 * 60 * 60 * 24,
   });
 
   return (

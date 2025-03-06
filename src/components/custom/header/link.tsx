@@ -8,7 +8,7 @@ type HeaderLinkProps = {
   children: React.ReactNode;
 };
 
-function HeaderLink({ children, href }: HeaderLinkProps): React.JSX.Element {
+function HeaderLink({ children, href }: HeaderLinkProps) {
   const pathname = usePathname();
 
   return (

@@ -12,7 +12,7 @@ function DataTable<T extends Identifiable[]>({
   headers,
   data,
   editable,
-}: DataTableProps<T>): React.JSX.Element {
+}: DataTableProps<T>) {
   return (
     <table className="flex flex-col w-full border-collapse">
       <thead className="flex flex-row w-full">
@@ -22,22 +22,31 @@ function DataTable<T extends Identifiable[]>({
           ))}
         </tr>
       </thead>
+
       <tbody className="flex flex-col w-full">
-        {data.map((row) => (
-          <tr
-            key={row.id}
-            className="flex flex-row w-full border-y-1 py-1 items-center"
-          >
-            {headers.map((header) => (
-              <DataTableCell
-                key={header.name}
-                column={header}
-                value={row[header.name]}
-                editable={editable}
-              />
-            ))}
+        {data.length === 0 ? (
+          <tr key={"nodata"} className="flex flex-row w-full py-1 items-center">
+            <td colSpan={headers.length}>No data available</td>
           </tr>
-        ))}
+        ) : (
+          <>
+            {data.map((row) => (
+              <tr
+                key={row.id}
+                className="flex flex-row w-full border-y-1 py-1 items-center"
+              >
+                {headers.map((header) => (
+                  <DataTableCell
+                    key={header.name}
+                    column={header}
+                    value={row[header.name]}
+                    editable={editable}
+                  />
+                ))}
+              </tr>
+            ))}
+          </>
+        )}
       </tbody>
     </table>
   );
