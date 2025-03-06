@@ -2,11 +2,11 @@ import { cn } from "@/components/lib/utils";
 import { MAX_PAGE_TO_DISPLAY } from "@/lib/constants";
 import { PageInfo } from "@/lib/types";
 import {
-  ChevronLeftIcon,
-  ChevronRightIcon,
-  DoubleArrowLeftIcon,
-  DoubleArrowRightIcon,
-} from "@radix-ui/react-icons";
+  FaAnglesLeft,
+  FaAngleLeft,
+  FaAnglesRight,
+  FaAngleRight,
+} from "react-icons/fa6";
 
 type PaginationProps = {
   pageInfo: PageInfo;
@@ -38,21 +38,21 @@ function Pagination({ pageInfo, setPage }: PaginationProps) {
   const showRightDots =
     displayedPages[displayedPages.length - 1] < total_pages - 1;
 
+  const getArrowClassName = (disabled: boolean) =>
+    cn(
+      "cursor-pointer",
+      disabled && "text-gray-300 pointer-events-none cursor-not-allowed"
+    );
+
   return (
     <div className="flex justify-center w-full flex-row items-center gap-2">
-      <DoubleArrowLeftIcon
+      <FaAnglesLeft
         onClick={() => setPage(0)}
-        className={cn(
-          "cursor-pointer",
-          first && "invisible pointer-events-none"
-        )}
+        className={getArrowClassName(first)}
       />
-      <ChevronLeftIcon
+      <FaAngleLeft
         onClick={() => setPage(number - 1)}
-        className={cn(
-          "cursor-pointer",
-          first && "invisible pointer-events-none"
-        )}
+        className={getArrowClassName(first)}
       />
       <>
         {showLeftDots && <span className="p-2 mx-1">...</span>}
@@ -62,7 +62,7 @@ function Pagination({ pageInfo, setPage }: PaginationProps) {
             <button
               key={pageIndex}
               className={cn(
-                "p-2 mx-1",
+                "p-2 mx-1 font-semibold",
                 isCurrentPage ? "text-focused font-bold" : "text-primary"
               )}
               onClick={() => setPage(pageIndex)}
@@ -73,19 +73,13 @@ function Pagination({ pageInfo, setPage }: PaginationProps) {
         })}
         {showRightDots && <span className="p-2 mx-1">...</span>}
       </>
-      <ChevronRightIcon
+      <FaAngleRight
         onClick={() => setPage(number + 1)}
-        className={cn(
-          "cursor-pointer",
-          last && "invisible pointer-events-none"
-        )}
+        className={getArrowClassName(last)}
       />
-      <DoubleArrowRightIcon
+      <FaAnglesRight
         onClick={() => setPage(total_pages - 1)}
-        className={cn(
-          "cursor-pointer",
-          last && "invisible pointer-events-none"
-        )}
+        className={getArrowClassName(last)}
       />
     </div>
   );

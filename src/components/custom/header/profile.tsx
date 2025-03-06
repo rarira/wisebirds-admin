@@ -2,7 +2,7 @@
 
 import { queryKeys } from "@/lib/react-query";
 import { UserProfile } from "@/lib/types";
-import { PersonIcon } from "@radix-ui/react-icons";
+import { GrUserManager } from "react-icons/gr";
 import { useQuery } from "@tanstack/react-query";
 import {
   Popover,
@@ -26,7 +26,7 @@ function HeaderProfile() {
   return (
     <Popover>
       <PopoverTrigger className="flex items-center gap-1">
-        <PersonIcon />
+        <GrUserManager />
         {isLoading ? (
           <span>Loading...</span>
         ) : error ? (
