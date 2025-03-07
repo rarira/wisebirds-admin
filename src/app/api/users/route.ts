@@ -1,4 +1,9 @@
+import { getPaginatedDataRoute } from "@/lib/api-routes";
 import { NextRequest, NextResponse } from "next/server";
+
+export async function GET(req: NextRequest) {
+  return await getPaginatedDataRoute(req, "users");
+}
 
 export async function POST(req: NextRequest) {
   const body = await req.json();

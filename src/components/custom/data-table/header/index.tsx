@@ -13,7 +13,8 @@ function DataTableHeader({
       key={name}
       className={cn(
         "flex w-full text-muted-foreground font-normal",
-        type === "boolean" && "justify-center max-w-12",
+        (type === "boolean" || type == "edit-button") &&
+          "justify-center max-w-12",
         type === "integer" || type === "float"
           ? "justify-end"
           : "justify-start",

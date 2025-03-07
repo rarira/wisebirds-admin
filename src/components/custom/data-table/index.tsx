@@ -1,18 +1,25 @@
-import { Identifiable, TableHeader } from "@/lib/types";
+import {
+  Identifiable,
+  InferDataType,
+  ResourceContentTypeMap,
+  TableHeader,
+} from "@/lib/types";
 import DataTableHeader from "./header";
 import DataTableCell from "./cell";
 
-type DataTableProps<T extends Identifiable[]> = {
+type DataTableProps<T extends keyof ResourceContentTypeMap> = {
+  resourceType: T;
   headers: TableHeader[];
-  data: T;
+  data: ResourceContentTypeMap[T];
   editable?: boolean;
 };
 
-function DataTable<T extends Identifiable[]>({
+function DataTable({
+  resourceType,
   headers,
   data,
   editable,
-}: DataTableProps<T>) {
+}: DataTableProps<keyof ResourceContentTypeMap>) {
   return (
     <table className="flex flex-col w-full border-collapse">
       <thead className="flex flex-row w-full">
@@ -42,6 +49,7 @@ function DataTable<T extends Identifiable[]>({
                     value={row[header.name]}
                     editable={editable}
                     row={row}
+                    resourceType={resourceType}
                   />
                 ))}
               </tr>

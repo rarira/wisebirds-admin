@@ -9,6 +9,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import LoadingSpinner from "../loading-spinner";
 
 function HeaderProfile() {
   const { data, isLoading, error } = useQuery<UserProfile>({
@@ -28,7 +29,9 @@ function HeaderProfile() {
       <PopoverTrigger className="flex items-center gap-1">
         <GrUserManager />
         {isLoading ? (
-          <span>Loading...</span>
+          <span>
+            <LoadingSpinner color="white" size={8} />
+          </span>
         ) : error ? (
           <span>Error: {error.message}</span>
         ) : data ? (

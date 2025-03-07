@@ -5,7 +5,14 @@ export interface Identifiable
   id: number;
 }
 
-export type DataType = "text" | "constant" | "integer" | "float" | "boolean";
+export type DataType =
+  | "text"
+  | "constant"
+  | "integer"
+  | "float"
+  | "date"
+  | "boolean"
+  | "edit-button";
 
 type Company = {
   id: number;
@@ -63,6 +70,11 @@ export type PageInfo = {
   empty: boolean;
 };
 
+export type ResourceContentTypeMap = {
+  campaigns: CampaignContent[];
+  users: UserContent[];
+};
+
 export type CampaignApiResponse = PageInfo & {
   content: CampaignContent[];
 };
@@ -70,3 +82,10 @@ export type CampaignApiResponse = PageInfo & {
 export type UserApiResponse = PageInfo & {
   content: UserContent[];
 };
+
+export type FilePathMap = Record<keyof ResourceContentTypeMap, string>;
+
+export type ResourceApiResponseMap = Record<
+  keyof ResourceContentTypeMap,
+  PageInfo & { content: ResourceContentTypeMap[keyof ResourceContentTypeMap] }
+>;

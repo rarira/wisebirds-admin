@@ -1,22 +1,35 @@
-import { DataType, Identifiable, TableHeader } from "@/lib/types";
+import {
+  CampaignContent,
+  DataType,
+  ResourceContentTypeMap,
+  TableHeader,
+  UserContent,
+} from "@/lib/types";
 import { cn } from "@/components/lib/utils";
 import { ReactElement } from "react";
-import { getFormattedInteger, getPercentageString } from "@/lib/utils";
+import {
+  getFormattedInteger,
+  getFormattedTimeDateString,
+  getPercentageString,
+} from "@/lib/utils";
 import DataTableBooleanCell from "./boolean&";
+import DataTableEditCell from "./edit&";
 
-type DataTableCellProps = {
-  row: Identifiable;
+type DataTableCellProps<T extends keyof ResourceContentTypeMap> = {
+  resourceType: T;
+  row: ResourceContentTypeMap[T][number];
   column: TableHeader;
   value: string | number | boolean;
   editable?: boolean;
 };
 
 function DataTableCell({
+  resourceType,
   column: { name, type, values, width },
   value,
   editable,
   row,
-}: DataTableCellProps) {
+}: DataTableCellProps<keyof ResourceContentTypeMap>) {
   const getCellValue = (
     value: string | number | boolean,
     type: DataType
@@ -29,13 +42,23 @@ function DataTableCell({
       case "float":
         return <span>{getPercentageString(value as number)}</span>;
       case "boolean":
-        return (
-          <DataTableBooleanCell
-            value={value as boolean}
-            disabled={!editable}
-            row={row}
-          />
-        );
+        if (resourceType === "campaigns") {
+          return (
+            <DataTableBooleanCell
+              value={value as boolean}
+              disabled={!editable}
+              row={row as CampaignContent}
+            />
+          );
+        }
+        return <span>{value ? "활성" : "비활성"}</span>;
+      case "date":
+        return <span>{getFormattedTimeDateString(value as string)}</span>;
+      case "edit-button":
+        if (resourceType === "users") {
+          return <DataTableEditCell row={row as UserContent} value={"수정"} />;
+        }
+        return <span>{value}</span>;
       default:
         return <span>{value}</span>;
     }
@@ -46,7 +69,8 @@ function DataTableCell({
       key={name}
       className={cn(
         "flex w-full",
-        type === "boolean" && "justify-center max-w-12",
+        (type === "boolean" || type === "edit-button") &&
+          "justify-center max-w-12",
         type === "integer" || type === "float"
           ? "justify-end"
           : "justify-start",

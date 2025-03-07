@@ -1,6 +1,6 @@
 "use client";
 import { Switch } from "@/components/ui/switch";
-import { Identifiable } from "@/lib/types";
+import { CampaignContent } from "@/lib/types";
 import { useUpdateCampaignStatus } from "../../../../hooks/useUpdateCampaignStatus";
 
 function DataTableBooleanCell({
@@ -9,7 +9,7 @@ function DataTableBooleanCell({
   row,
 }: {
   value: boolean;
-  row: Identifiable;
+  row: CampaignContent;
   disabled?: boolean;
 }) {
   const { handleChange } = useUpdateCampaignStatus(row.id);

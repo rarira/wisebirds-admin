@@ -1,18 +1,18 @@
 import { faker } from "@faker-js/faker";
-import { CAMPAIGN_OBJECTIVES, CAMPAIGN_TOTAL_ELEMENTS } from "./constants";
-import { CampaignContent, UserContent } from "./types";
+import {
+  CAMPAIGN_OBJECTIVES,
+  INITIAL_RESOURCE_TOTAL_ELEMENTS,
+} from "./constants";
+import {
+  CampaignContent,
+  FilePathMap,
+  ResourceContentTypeMap,
+  UserContent,
+} from "./types";
 import { promises as fs } from "fs";
 
-const CAMPAIGNS_FILE_PATH = "src/data/campaigns.json";
-const USERS_FILE_PATH = "src/data/users.json";
-
-type ResourceType = "campaigns" | "users";
-type ResourceContent = CampaignContent | UserContent;
-
-type FilePathMap = {
-  campaigns: string;
-  users: string;
-};
+const CAMPAIGNS_FILE_PATH = "/src/data/campaigns.json";
+const USERS_FILE_PATH = "/src/data/users.json";
 
 const FILE_PATHS: FilePathMap = {
   campaigns: CAMPAIGNS_FILE_PATH,
@@ -41,52 +41,61 @@ function createUserContent(length: number): UserContent[] {
   return Array.from({ length }, (_, index) => {
     return {
       id: index + 1,
-      name: faker.person.fullName(),
-      email: faker.internet.email(),
+      name: `사용자${index + 1}`,
+      email: `user${index + 1}@wisebirds.com`,
       last_login_at: faker.date.recent().toISOString(),
     };
   });
 }
 
-export async function getDataFromJsonServer<T extends ResourceContent>(
-  resourceType: ResourceType
-): Promise<T[]> {
+export async function getDataFromJsonServer<
+  T extends keyof ResourceContentTypeMap
+>(resourceType: T): Promise<ResourceContentTypeMap[T]> {
   const filePath = FILE_PATHS[resourceType];
-  let allContent: T[] = [];
+  let allContent: ResourceContentTypeMap[T] = [] as ResourceContentTypeMap[T];
+
+  const initial_total_elements = INITIAL_RESOURCE_TOTAL_ELEMENTS[resourceType];
 
   try {
-    await fs.access(process.cwd() + "/" + filePath);
-    const file = await fs.readFile(process.cwd() + "/" + filePath, "utf8");
-    allContent = JSON.parse(file);
+    await fs.access(process.cwd() + filePath);
+    const file = await fs.readFile(process.cwd() + filePath, "utf8");
+    allContent = JSON.parse(file) as ResourceContentTypeMap[T];
   } catch (error) {
-    console.error("File error:", error);
-    allContent =
+    console.error("file error", error);
+    allContent = (
       resourceType === "campaigns"
-        ? (createCampaignContent(CAMPAIGN_TOTAL_ELEMENTS) as T[])
-        : (createUserContent(10) as T[]);
-
-    await fs.writeFile(filePath, JSON.stringify(allContent, null, 2), "utf8");
+        ? createCampaignContent(initial_total_elements)
+        : createUserContent(initial_total_elements)
+    ) as ResourceContentTypeMap[T];
+    await fs.writeFile(
+      process.cwd() + filePath,
+      JSON.stringify(allContent),
+      "utf8"
+    );
   }
 
   return allContent;
 }
-
-export async function updateDataFromJsonServer<T extends ResourceContent>(
-  resourceType: ResourceType,
+export async function updateDataFromJsonServer<
+  T extends keyof ResourceContentTypeMap
+>(
+  resourceType: T,
   id: number,
-  body: Partial<T>
+  body: Partial<ResourceContentTypeMap[T]>
 ): Promise<void> {
   const filePath = FILE_PATHS[resourceType];
 
   try {
-    await fs.access(process.cwd() + "/" + filePath);
-    const file = await fs.readFile(process.cwd() + "/" + filePath, "utf8");
-    const allContent = JSON.parse(file) as T[];
-    const updatedContent = allContent.map((content: T) =>
+    await fs.access(process.cwd() + filePath);
+    const file = await fs.readFile(process.cwd() + filePath, "utf8");
+
+    const allContent = JSON.parse(file) as ResourceContentTypeMap[T];
+    const updatedContent = allContent.map((content) =>
       content.id === id ? { ...content, ...body } : content
     );
+
     await fs.writeFile(
-      filePath,
+      process.cwd() + filePath,
       JSON.stringify(updatedContent, null, 2),
       "utf8"
     );
