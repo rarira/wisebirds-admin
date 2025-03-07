@@ -17,7 +17,8 @@ function HeaderProfile() {
     queryFn: async () => {
       const response = await fetch("/api/auth/me");
       if (!response.ok) {
-        throw new Error("Network response was not ok");
+        const errorData = await response.json();
+        throw new Error(errorData.message || "유저 프로필 요청 실패");
       }
       return response.json();
     },

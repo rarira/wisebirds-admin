@@ -1,6 +1,6 @@
 import { PAGINATION_SIZE } from "@/lib/constants";
 import { queryKeys } from "@/lib/react-query";
-import { useErrorStore } from "@/lib/store";
+import { useErrorStore } from "@/lib/stores";
 import { CampaignApiResponse } from "@/lib/types";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
 import { useSearchParams } from "next/navigation";
@@ -14,7 +14,7 @@ export function useUpdateCampaignStatus(id: number) {
 
   const setError = useErrorStore((state) => state.setError);
 
-  const campaignsQueryKey = queryKeys.campaigns(
+  const campaignsQueryKey = queryKeys.campaigns.lists(
     pageParams ? +pageParams : 0,
     PAGINATION_SIZE
   );
@@ -55,6 +55,15 @@ export function useUpdateCampaignStatus(id: number) {
       );
 
       return { previousCampaigns };
+    },
+    onError: (_error, _variables, context) => {
+      queryClient.setQueryData(campaignsQueryKey, context?.previousCampaigns);
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({
+        queryKey: campaignsQueryKey,
+        exact: true,
+      });
     },
   });
 

@@ -18,7 +18,7 @@ function DataTable({
   return (
     <table className="flex flex-col w-full border-collapse">
       <thead className="flex flex-row w-full">
-        <tr className="flex flex-row w-full border-y-1 py-1 items-center">
+        <tr className="flex flex-row w-full border-b-1 py-1 items-center">
           {headers.map((header) => (
             <DataTableHeader key={header.name} column={header} />
           ))}

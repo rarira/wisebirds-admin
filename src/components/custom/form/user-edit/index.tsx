@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { userEditFormSchema } from "@/lib/form";
+import { userEditFormSchema } from "@/lib/forms";
 import {
   Form,
   FormControl,
@@ -49,7 +49,12 @@ function UserEditForm({ onClose, row }: UserEditFormProps) {
                 <RequiredDot />
               </FormLabel>
               <FormControl>
-                <Input {...field} className="w-100" />
+                <Input
+                  {...field}
+                  className="w-100"
+                  minLength={1}
+                  maxLength={16}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>

@@ -2,7 +2,7 @@
 
 import PaginatedTableView from "@/components/custom/view/paginated-table";
 import { CAMPAIGN_TABLE_HEADERS } from "@/lib/constants";
-import { useRoleStore } from "@/lib/store";
+import { useRoleStore } from "@/lib/stores";
 import { Suspense } from "react";
 
 export default function HomePage() {
@@ -10,9 +10,11 @@ export default function HomePage() {
 
   return (
     <div className="flex flex-col justify-between mt-4 gap-4">
+      <h2 className="font-bold">캠페인 관리</h2>
+      <div className="w-full h-[1px] bg-gray-200" />
+
       <Suspense>
         <PaginatedTableView
-          pageTitle="캠페인 관리"
           tableHeaders={CAMPAIGN_TABLE_HEADERS}
           resourceType="campaigns"
           dataEditable={role !== "viewer"}

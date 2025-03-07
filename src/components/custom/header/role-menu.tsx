@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/select";
 import { cn } from "@/components/lib/utils";
 import { ROLES } from "@/lib/constants";
-import { useRoleStore } from "@/lib/store";
+import { useRoleStore } from "@/lib/stores";
 
 function StyledSelectItem({
   currentRole,

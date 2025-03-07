@@ -4,7 +4,7 @@ import DataTable from "@/components/custom/data-table";
 import Pagination from "@/components/custom/pagination";
 import { PAGINATION_SIZE } from "@/lib/constants";
 import { queryKeys } from "@/lib/react-query";
-import { useErrorStore } from "@/lib/store";
+import { useErrorStore } from "@/lib/stores";
 import {
   ResourceApiResponseMap,
   ResourceContentTypeMap,
@@ -12,20 +12,18 @@ import {
 } from "@/lib/types";
 import { useQuery } from "@tanstack/react-query";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useMemo } from "react";
+import { useEffect } from "react";
 import LoadingSpinner from "@/components/custom/loading-spinner";
 
 type PaginatedTableViewProps = {
   resourceType: keyof ResourceContentTypeMap;
   tableHeaders: TableHeader[];
-  pageTitle: string;
   dataEditable?: boolean;
 };
 
 function PaginatedTableView({
   resourceType,
   tableHeaders,
-  pageTitle,
   dataEditable,
 }: PaginatedTableViewProps) {
   const router = useRouter();
@@ -41,7 +39,7 @@ function PaginatedTableView({
   const { data, isLoading, error } = useQuery<
     ResourceApiResponseMap[typeof resourceType]
   >({
-    queryKey: queryKeys[resourceType](page, PAGINATION_SIZE),
+    queryKey: queryKeys[resourceType].lists(page, PAGINATION_SIZE),
     queryFn: async () => {
       const response = await fetch(
         `/api/${resourceType}?page=${page}&size=${PAGINATION_SIZE}`
@@ -67,34 +65,30 @@ function PaginatedTableView({
     }
   }, [error, setError]);
 
-  const restData = useMemo(() => {
-    if (!data) return null;
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { content, ...rest } = data;
-    return rest;
-  }, [data]);
+  if (error) {
+    return <div className="text-destructive">에러 발생: {error.message}</div>;
+  }
+
+  if (isLoading || !data) {
+    return (
+      <div className="flex justify-center items-center pt-40">
+        <LoadingSpinner />
+      </div>
+    );
+  }
+
+  const { content, ...restData } = data;
 
   return (
     <>
-      <h2 className="font-bold">{pageTitle}</h2>
-      {!!error ? (
-        <div className="text-destructive">에러 발생: {error.message}</div>
-      ) : isLoading || !data ? (
-        <div className="flex justify-center items-center pt-40">
-          <LoadingSpinner />
-        </div>
-      ) : (
-        <>
-          <DataTable
-            headers={tableHeaders}
-            data={data.content}
-            editable={dataEditable}
-            resourceType={resourceType}
-          />
-          {data.total_pages > 1 && (
-            <Pagination pageInfo={restData!} setPage={setPageParam} />
-          )}
-        </>
+      <DataTable
+        headers={tableHeaders}
+        data={content}
+        editable={dataEditable}
+        resourceType={resourceType}
+      />
+      {data.total_pages > 1 && (
+        <Pagination pageInfo={restData!} setPage={setPageParam} />
       )}
     </>
   );

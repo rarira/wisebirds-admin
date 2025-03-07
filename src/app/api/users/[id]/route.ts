@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { updateDataFromJsonServer } from "@/lib/json-server";
-import { userEditFormSchema } from "@/lib/form";
+import { userEditFormSchema } from "@/lib/forms";
 
 export async function PATCH(
   req: NextRequest,

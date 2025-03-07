@@ -5,7 +5,7 @@ import Image from "next/image";
 import HeaderMenu from "./link";
 import HeaderProfile from "./profile";
 import HeaderRoleMenu from "./role-menu";
-import { useRoleStore } from "@/lib/store";
+import { useRoleStore } from "@/lib/stores";
 
 function Header() {
   const role = useRoleStore((state) => state.role);

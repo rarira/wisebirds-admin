@@ -1,6 +1,6 @@
 import { PAGINATION_SIZE } from "@/lib/constants";
 import { queryKeys } from "@/lib/react-query";
-import { useErrorStore } from "@/lib/store";
+import { useErrorStore } from "@/lib/stores";
 import { UserApiResponse } from "@/lib/types";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
 import { useSearchParams } from "next/navigation";
@@ -14,7 +14,7 @@ export function useUpdateUser(id: number) {
 
   const setError = useErrorStore((state) => state.setError);
 
-  const userQueryKey = queryKeys.users(
+  const userQueryKey = queryKeys.users.lists(
     pageParams ? +pageParams : 0,
     PAGINATION_SIZE
   );
@@ -40,7 +40,7 @@ export function useUpdateUser(id: number) {
       await queryClient.cancelQueries({
         queryKey: userQueryKey,
       });
-      const previousCampaigns =
+      const previousUsers =
         queryClient.getQueryData<UserApiResponse>(userQueryKey);
 
       queryClient.setQueryData<UserApiResponse>(userQueryKey, (old) => {
@@ -52,7 +52,16 @@ export function useUpdateUser(id: number) {
         };
       });
 
-      return { previousCampaigns };
+      return { previousUsers };
+    },
+    onError: (_error, _variables, context) => {
+      queryClient.setQueryData(userQueryKey, context?.previousUsers);
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({
+        queryKey: userQueryKey,
+        exact: true,
+      });
     },
   });
 

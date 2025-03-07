@@ -89,3 +89,12 @@ export type ResourceApiResponseMap = Record<
   keyof ResourceContentTypeMap,
   PageInfo & { content: ResourceContentTypeMap[keyof ResourceContentTypeMap] }
 >;
+
+export type IdData = Record<keyof ResourceContentTypeMap, number>;
+
+export type InsertUserData = {
+  email: string;
+  name: string;
+  company: string;
+  last_login_at: string;
+};
