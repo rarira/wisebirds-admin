@@ -1,9 +1,4 @@
-import {
-  Identifiable,
-  InferDataType,
-  ResourceContentTypeMap,
-  TableHeader,
-} from "@/lib/types";
+import { ResourceContentTypeMap, TableHeader } from "@/lib/types";
 import DataTableHeader from "./header";
 import DataTableCell from "./cell";
 

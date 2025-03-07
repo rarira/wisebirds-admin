@@ -1,7 +1,7 @@
 "use client";
 import { Switch } from "@/components/ui/switch";
 import { CampaignContent } from "@/lib/types";
-import { useUpdateCampaignStatus } from "../../../../hooks/useUpdateCampaignStatus";
+import { useUpdateCampaignStatus } from "@/hooks/useUpdateCampaignStatus";
 
 function DataTableBooleanCell({
   value,

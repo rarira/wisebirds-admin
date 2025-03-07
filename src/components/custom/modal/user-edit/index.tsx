@@ -24,7 +24,7 @@ function UserEditModal({ row, setOpen }: UserEditModalProps) {
         </div>
         <div className="text-md">{row.email}</div>
       </div>
-      <UserEditForm onClose={closeModal} username={row.name} />
+      <UserEditForm onClose={closeModal} row={row} />
       <ModalCloseButton onClick={closeModal} />
     </Modal>
   );

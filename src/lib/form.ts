@@ -3,7 +3,7 @@ import { z } from "zod";
 const koreanEnglishRegex = /^[가-힣a-zA-Z]+$/;
 
 export const userEditFormSchema = z.object({
-  username: z
+  name: z
     .string()
     .trim()
     .min(1, "이름을 입력하세요")

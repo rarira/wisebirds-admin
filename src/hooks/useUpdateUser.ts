@@ -1,12 +1,12 @@
 import { PAGINATION_SIZE } from "@/lib/constants";
 import { queryKeys } from "@/lib/react-query";
 import { useErrorStore } from "@/lib/store";
-import { CampaignApiResponse } from "@/lib/types";
+import { UserApiResponse } from "@/lib/types";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
 import { useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 
-export function useUpdateCampaignStatus(id: number) {
+export function useUpdateUser(id: number) {
   const queryClient = useQueryClient();
 
   const searchParams = useSearchParams();
@@ -14,45 +14,43 @@ export function useUpdateCampaignStatus(id: number) {
 
   const setError = useErrorStore((state) => state.setError);
 
-  const campaignsQueryKey = queryKeys.campaigns(
+  const userQueryKey = queryKeys.users(
     pageParams ? +pageParams : 0,
     PAGINATION_SIZE
   );
 
   const { mutateAsync, error } = useMutation({
-    mutationFn: async (enabled: boolean) => {
-      const response = await fetch(`/api/campaigns/${id}`, {
+    mutationFn: async (name: string) => {
+      const response = await fetch(`/api/users/${id}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          enabled,
+          name,
         }),
       });
+
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.message || "사용자 업데이트 실패");
       }
     },
-    onMutate: async (enabled: boolean) => {
+    onMutate: async (name: string) => {
       await queryClient.cancelQueries({
-        queryKey: campaignsQueryKey,
+        queryKey: userQueryKey,
       });
       const previousCampaigns =
-        queryClient.getQueryData<CampaignApiResponse>(campaignsQueryKey);
+        queryClient.getQueryData<UserApiResponse>(userQueryKey);
 
-      queryClient.setQueryData<CampaignApiResponse>(
-        campaignsQueryKey,
-        (old) => {
-          return {
-            ...old!,
-            content: old!.content.map((campaign) =>
-              campaign.id === id ? { ...campaign, enabled } : campaign
-            ),
-          };
-        }
-      );
+      queryClient.setQueryData<UserApiResponse>(userQueryKey, (old) => {
+        return {
+          ...old!,
+          content: old!.content.map((user) =>
+            user.id === id ? { ...user, name } : user
+          ),
+        };
+      });
 
       return { previousCampaigns };
     },
@@ -64,9 +62,9 @@ export function useUpdateCampaignStatus(id: number) {
     }
   }, [error, setError]);
 
-  const handleChange = async (value: boolean) => {
-    await mutateAsync(value);
+  const handleSubmit = async (name: string) => {
+    await mutateAsync(name);
   };
 
-  return { handleChange };
+  return { handleSubmit };
 }

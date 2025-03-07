@@ -13,22 +13,27 @@ import {
 import { Input } from "@/components/ui/input";
 import RequiredDot from "@/components/custom/required-dot";
 import FormActionButtons from "../action-buttons";
+import { UserContent } from "@/lib/types";
+import { useUpdateUser } from "@/hooks/useUpdateUser";
 
 type UserEditFormProps = {
   onClose: () => void;
-  username: string;
+  row: UserContent;
 };
 
-function UserEditForm({ onClose, username }: UserEditFormProps) {
+function UserEditForm({ onClose, row }: UserEditFormProps) {
   const form = useForm<z.infer<typeof userEditFormSchema>>({
     resolver: zodResolver(userEditFormSchema),
     defaultValues: {
-      username: username,
+      name: row.name,
     },
   });
 
-  const onSubmit = (values: z.infer<typeof userEditFormSchema>) => {
-    console.log(values);
+  const { handleSubmit } = useUpdateUser(row.id);
+
+  const onSubmit = async (values: z.infer<typeof userEditFormSchema>) => {
+    await handleSubmit(values.name);
+    onClose();
   };
 
   return (
@@ -36,7 +41,7 @@ function UserEditForm({ onClose, username }: UserEditFormProps) {
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         <FormField
           control={form.control}
-          name="username"
+          name="name"
           render={({ field }) => (
             <FormItem>
               <FormLabel className="font-semibold text-md relative w-fit">

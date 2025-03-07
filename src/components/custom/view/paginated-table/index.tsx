@@ -74,14 +74,12 @@ function PaginatedTableView({
     return rest;
   }, [data]);
 
-  if (error) {
-    return <div>에러 발생: {error.message}</div>;
-  }
-
   return (
     <>
       <h2 className="font-bold">{pageTitle}</h2>
-      {isLoading || !data ? (
+      {!!error ? (
+        <div className="text-destructive">에러 발생: {error.message}</div>
+      ) : isLoading || !data ? (
         <div className="flex justify-center items-center pt-40">
           <LoadingSpinner />
         </div>

@@ -3,7 +3,7 @@
 import PortalHost from "@/components/custom/portal/host";
 import PaginatedTableView from "@/components/custom/view/paginated-table";
 import { PORTAL_HOSTS, USER_TABLE_HEADERS } from "@/lib/constants";
-import { usePortalStore, useRoleStore } from "@/lib/store";
+import { useRoleStore } from "@/lib/store";
 import { Suspense } from "react";
 
 export default function UsersPage() {
