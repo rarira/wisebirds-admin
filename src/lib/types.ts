@@ -31,7 +31,7 @@ export type InferDataType<T extends unknown[]> = T extends (infer U)[]
   ? U
   : never;
 
-export interface CampaignContent extends Identifiable {
+export type CampaignContent = Identifiable & {
   enabled: boolean;
   campaign_objective: keyof typeof CAMPAIGN_OBJECTIVES;
   impressions: number;
@@ -39,13 +39,19 @@ export interface CampaignContent extends Identifiable {
   ctr: number;
   video_views: number;
   vtr: number;
-}
+};
+
+export type UserContent = Identifiable & {
+  email: string;
+  name: string;
+  last_login_at: string;
+};
 
 type SortInfo = {
   sort_field: string;
   sort_order: "ASC" | "DESC";
 };
-export interface PageInfo {
+export type PageInfo = {
   total_elements: number;
   total_pages: number;
   last: boolean;
@@ -55,8 +61,12 @@ export interface PageInfo {
   number_of_elements: number;
   first: boolean;
   empty: boolean;
-}
+};
 
-export interface CampaignApiResponse extends PageInfo {
+export type CampaignApiResponse = PageInfo & {
   content: CampaignContent[];
-}
+};
+
+export type UserApiResponse = PageInfo & {
+  content: UserContent[];
+};
