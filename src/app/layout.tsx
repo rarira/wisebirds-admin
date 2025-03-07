@@ -15,7 +15,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Wisebirds admin console",
+  title: "Wisebirds admin",
   description: "캠페인/사용자 열람 및 관리가 가능합니다",
 };
 
