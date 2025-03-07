@@ -55,7 +55,7 @@ function UserAddForm({ onClose }: UserAddFormProps) {
     }
     const { result } = (await response.json()) as { result: boolean };
 
-    if (!result) {
+    if (result) {
       form.setError("email", {
         message: "이미 사용중인 이메일입니다. 다른 이메일을 입력하세요.",
       });

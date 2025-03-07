@@ -2,11 +2,14 @@ import { NextRequest, NextResponse } from "next/server";
 import { updateDataFromJsonServer } from "@/lib/json-server";
 import { userEditFormSchema } from "@/lib/forms";
 
-export async function PATCH(
-  req: NextRequest,
-  { params }: { params: { id: string } }
-) {
-  const { id } = await params;
+type Props = {
+  params: Promise<{
+    slug: string;
+  }>;
+};
+
+export async function PATCH(req: NextRequest, props: Props) {
+  const { slug: id } = await props.params;
   const body = await req.json();
 
   const result = userEditFormSchema.safeParse(body);

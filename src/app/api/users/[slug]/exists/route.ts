@@ -1,11 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
 import { checkEmailExits } from "@/lib/json-server";
 
-export async function GET(
-  req: NextRequest,
-  { params }: { params: { email: string } }
-) {
-  const { email } = await params;
+type Props = {
+  params: Promise<{
+    slug: string;
+  }>;
+};
+
+export async function GET(_req: NextRequest, props: Props) {
+  const { slug: email } = await props.params;
 
   try {
     // JSON 파일로 backend 임시 구현

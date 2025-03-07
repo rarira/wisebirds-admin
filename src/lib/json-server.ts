@@ -42,6 +42,7 @@ function createCampaignContent(length: number): CampaignContent[] {
 }
 
 function createUserContent(length: number): UserContent[] {
+  // 사용자 데이터는 생성시 optimistic update가 잘 드러나기 위해 역순으로 생성합니다.
   return Array.from({ length }, (_, index) => {
     return {
       id: index + 1,

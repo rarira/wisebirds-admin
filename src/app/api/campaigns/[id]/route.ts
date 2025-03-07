@@ -1,11 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
 import { updateDataFromJsonServer } from "@/lib/json-server";
 
-export async function PATCH(
-  req: NextRequest,
-  { params }: { params: { id: string } }
-) {
-  const { id } = await params;
+type Props = {
+  params: Promise<{
+    id: string;
+  }>;
+};
+
+export async function PATCH(req: NextRequest, props: Props) {
+  const { id } = await props.params;
   const body = await req.json();
 
   if (!body.enabled || typeof body.enabled !== "boolean") {
