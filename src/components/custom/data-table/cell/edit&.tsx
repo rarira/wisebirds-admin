@@ -18,6 +18,12 @@ function DataTableEditCell({
     setOpen(true);
   };
 
+  const portalDom = document.getElementById(PORTAL_HOSTS.USERS.toString());
+
+  if (open && !portalDom) {
+    throw new Error("Portal host not found");
+  }
+
   return (
     <>
       <button onClick={handleClick} className="flex font-bold text-primary">
@@ -26,7 +32,7 @@ function DataTableEditCell({
       {open &&
         createPortal(
           <UserEditModal row={row} setOpen={setOpen} />,
-          document.getElementById(PORTAL_HOSTS.USERS)!
+          document.getElementById(PORTAL_HOSTS.USERS.toString())!
         )}
     </>
   );

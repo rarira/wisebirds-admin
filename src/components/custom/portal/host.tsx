@@ -5,7 +5,7 @@ function PortalHost({
 }: {
   portalHostId: (typeof PORTAL_HOSTS)[keyof typeof PORTAL_HOSTS];
 }) {
-  return <div id={portalHostId} />;
+  return <div id={portalHostId.toString()} />;
 }
 
 export default PortalHost;

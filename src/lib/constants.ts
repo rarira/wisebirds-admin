@@ -85,5 +85,5 @@ export const INITIAL_RESOURCE_TOTAL_ELEMENTS: Record<
 };
 
 export const PORTAL_HOSTS = {
-  USERS: "users_portal",
+  USERS: Symbol("users_portal"),
 } as const;
