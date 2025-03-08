@@ -11,7 +11,7 @@ export async function PATCH(req: NextRequest, props: Props) {
   const { id } = await props.params;
   const body = await req.json();
 
-  if (!body.enabled || typeof body.enabled !== "boolean") {
+  if (typeof body?.enabled !== "boolean") {
     return NextResponse.json(
       { message: "boolean 값인 enabled 필드가 필요합니다." },
       { status: 400 }
