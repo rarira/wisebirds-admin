@@ -1,8 +1,21 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+This is a [Next.js](https://nextjs.org) 15 project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## 시작하기
 
-1. 개발 서버 실행
+1. dependency 설치
+
+````bash
+npm install
+# or
+yarn install
+# or```
+
+pnpm install
+# or```
+bun install
+````
+
+2. 개발 서버 실행
 
 ```bash
 npm run dev
@@ -14,7 +27,7 @@ pnpm dev
 bun dev
 ```
 
-2. 빌드 후 실행
+3. 빌드 후 실행
 
 ```bash
 npm run build && npm run start
