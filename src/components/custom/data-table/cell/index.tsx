@@ -68,7 +68,7 @@ function DataTableCell({
     <td
       key={name}
       className={cn(
-        "flex w-full grow-${width}",
+        `flex w-full grow-${width}`,
         (type === "boolean" || type === "edit-button") &&
           "justify-center max-w-12 grow-0",
         type === "integer" || type === "float" ? "justify-end" : "justify-start"
